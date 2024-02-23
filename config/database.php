@@ -4,7 +4,7 @@ return [
     /**
      * Recupera il Data Source Name, l'identificativo che rappresenta la connessione specifica ad un database
      */
-    'dsn' => $_ENV['DB_CONNECTION'] . ":host=" . $_ENV['DB_HOST'] . ";port=" . $ENV['DB_PORT'] . ";dbname=" . $ENV['DB_NAME'],
+    'dsn' => $_ENV['DB_CONNECTION'] . ":host=" . $_ENV['DB_HOST'] . ";port=" . $_ENV['DB_PORT'] . ";dbname=" . $_ENV['DB_NAME'],
 
     /**
      * Recupera lo user del RDBMS collegato

@@ -2,7 +2,6 @@
 
 use Dotenv\Dotenv;
 use App\Modules\App;
-use App\Modules\Models\Article;
 
 //carico autoload per recuperare le varie classi dei pacchetti installati
 require_once __DIR__ . "/../vendor/autoload.php";
@@ -13,7 +12,7 @@ $dotenv = Dotenv::createImmutable(__DIR__ . "/../");
 $dotenv->load();
 
 //recupero le configurazioni del database (dsn, user, psw)
-$db_config = require_once __DIR__ . "/../Modules/config/database.php";
+$db_config = require_once __DIR__ . "/../config/database.php";
 
 $router = require_once __DIR__ . "/../routes/web.php";
 

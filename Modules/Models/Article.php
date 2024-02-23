@@ -10,7 +10,10 @@ class Article extends BaseModel
     public string $subtitle;
     public string $body;
 
-    protected function getAttributes()
+    /**
+     * Setta gli attributi che formano il modello
+     */
+    protected function getAttributes(): array
     {
         return [
             'title',
@@ -19,11 +22,17 @@ class Article extends BaseModel
         ];
     }
 
-    protected function getTableName()
+    /**
+     * Setta il nome della tabella nel database
+     */
+    protected function getTableName(): string
     {
         return 'articles';
     }
 
+    /**
+     * Costruisce l'istanza della classe
+     */
     public function __construct(string $title, string $subtitle, string $body)
     {
         $this->title = $title;

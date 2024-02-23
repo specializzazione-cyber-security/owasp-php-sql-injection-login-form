@@ -3,41 +3,43 @@
 namespace App\Modules\Models;
 
 use App\Modules\App;
+use PDOException;
+use PDOStatement;
 
 abstract class BaseModel
 {
-    abstract protected function getAttributes();
-    abstract protected function getTableName();
+    abstract protected function getAttributes(): array;
+    abstract protected function getTableName(): string;
 
-    public function save()
+    public function save(): bool
     {
-        //recupero gli attributi del modello
-        $attributes = implode(',', $this->getAttributes());
-
-        //recupero il nome della tabella
+        $attributes = $this->getAttributes();
         $tableName = $this->getTableName();
 
-        //imposto i parametri del prepared statement -> :title, :subtitle...
-        $params = implode(',', array_map(fn ($param) => ":$param", $this->getAttributes()));
+        $query = $this->buildQuery($attributes, $tableName);
 
-        //creo query di salvataggio
-        $statement = App::$app->database->pdo->prepare(
-            "INSERT INTO $tableName ($attributes) VALUES ($params)"
-        );
-
-        //recupero il valore di uno specifico attributo dell'istanza
-        foreach ($this->getAttributes() as $attribute) {
-            $statement->bindValue(
-                ":$attribute",
-                $this->{$attribute}
-            );
-        }
-
-        //eseguo la query
         try {
+            $statement = App::$app->database->pdo->prepare($query);
+            $this->bindValues($statement, $attributes);
             $statement->execute();
-        } catch (\Throwable $th) {
-            return $th->getMessage();
+            return true;
+        } catch (PDOException $e) {
+            error_log("Errore nel salvataggio: " . $e->getMessage());
+            return false;
+        }
+    }
+
+    private function buildQuery(array $attributes, string $tableName)
+    {
+        $queryFriendlyAttributes = implode(', ', $attributes);
+        $placeholders = implode(', ', array_map(fn ($column) => ":$column", $attributes));
+        return "INSERT INTO $tableName ($queryFriendlyAttributes) VALUES ($placeholders)";
+    }
+
+    private function bindValues(PDOStatement $statement, array $attributes): void
+    {
+        foreach ($attributes as $attribute) {
+            $statement->bindValue(":$attribute", $this->{$attribute});
         }
     }
 }
