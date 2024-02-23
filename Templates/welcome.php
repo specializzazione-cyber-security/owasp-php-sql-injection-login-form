@@ -1,12 +1,3 @@
-<?php
-
-use App\Modules\Csrf;
-
-$token = Csrf::generateToken();
-$_SESSION['csrf_token'] = $token;
-
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 

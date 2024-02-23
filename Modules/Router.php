@@ -2,6 +2,8 @@
 
 namespace App\Modules;
 
+require_once __DIR__ . '/../Modules/helpers.php';
+
 class Router
 {
     //routes ha al suo interno i vari metodi
@@ -41,7 +43,16 @@ class Router
     public static function resolve()
     {
         $method = $_SERVER['REQUEST_METHOD'];
-        $uri = $_SERVER['REQUEST_URI'];
+        $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+
+        if ($method === 'POST') {
+            $requestToken = $_POST['csrf_token'];
+
+            if (!Csrf::verifyToken($requestToken)) {
+                http_response_code(419);
+                return view('errors/419');
+            }
+        }
 
         $callback = self::$routes[$method][$uri] ?? null;
 

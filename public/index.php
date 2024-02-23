@@ -6,6 +6,7 @@ use App\Modules\Database;
 
 //carico autoload per recuperare le varie classi dei pacchetti installati
 require_once __DIR__ . "/../vendor/autoload.php";
+require_once __DIR__ . "/../Modules/helpers.php";
 
 //recupero il .env indicando il suo path
 $dotenv = Dotenv::createImmutable(__DIR__ . "/../");
