@@ -46,8 +46,8 @@ class Router
         $callback = self::$routes[$method][$uri] ?? null;
 
         if (!$callback) {
-            echo "404 - Not found!";
-            exit();
+            http_response_code(404);
+            return view('errors/404');
         }
 
         return call_user_func($callback);

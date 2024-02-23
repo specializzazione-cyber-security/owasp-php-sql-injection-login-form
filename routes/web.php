@@ -36,8 +36,7 @@ $router::post('/article/store', function () {
 
     $article->save();
 
-    return view('welcome');
-    exit();
+    return redirect('/');
 });
 
 return $router;
