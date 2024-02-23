@@ -6,7 +6,7 @@ use PDO;
 
 class Database
 {
-    public \PDO $pdo;
+    public PDO $pdo;
 
     public function __construct($config)
     {
