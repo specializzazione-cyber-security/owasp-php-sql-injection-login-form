@@ -37,6 +37,11 @@ class Router
         self::$routes['DELETE'][$uri] = $callback;
     }
 
+    public static function routeIs($uri)
+    {
+        return $uri == parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+    }
+
     /**
      * Prende dalla richiesta Metodo e URI e controlla se esiste una rotta corrispondente. Se esiste, assegna la callback e la lancia.
      */
