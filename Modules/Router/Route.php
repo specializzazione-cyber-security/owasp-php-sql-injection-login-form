@@ -51,9 +51,7 @@ class Route
         $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 
         if ($method === 'POST') {
-            $requestToken = $_POST['csrf_token'];
-
-            if (!Csrf::verifyToken($requestToken)) {
+            if (!isset($_POST['csrf_token']) || !Csrf::verifyToken($_POST['csrf_token'])) {
                 http_response_code(419);
                 return view('errors/419');
             }
