@@ -4,37 +4,50 @@ use Dotenv\Dotenv;
 use App\Modules\App;
 use App\Modules\Database;
 
-//carico autoload per recuperare le varie classi dei pacchetti installati
-require_once __DIR__ . "/../vendor/autoload.php";
-require_once __DIR__ . "/../Modules/helpers.php";
+/**
+ * Definiamo i percorsi piu' importanti
+ */
+require_once dirname(__FILE__, 2) . "/Modules/path_helpers.php";
 
-//definisco i percorsi dei file
-define('BASE_PATH', __DIR__ . "/../");
-define('CONFIG_PATH', BASE_PATH . "config/");
-define('ROUTES_PATH', BASE_PATH . "routes/");
+/**
+ * Registriamo l'autoloader di Composer e le funzioni helpers delle rotte
+ */
+require_once basePath() . "vendor/autoload.php";
+require_once modulesPath() . "Router/helpers.php";
 
-//recupero il .env indicando il suo path
-$dotenv = Dotenv::createImmutable(BASE_PATH);
-//crea la superglobal $_ENV
+/**
+ * Recuperiamo il file .env e controlliamo che esista
+ */
+$dotenv = Dotenv::createImmutable(basePath());
 $dotenv->load();
 
-if (!file_exists(BASE_PATH . '.env')) {
+if (!file_exists(basePath() . '.env')) {
     die("Il file .env non è stato trovato.");
 }
 
-//recupero le configurazioni del database (dsn, user, psw)
-$db_config = require_once CONFIG_PATH . "database.php";
+/**
+ * Recuperiamo le configurazioni del database e controlliamo che siano corrette
+ */
+$db_config = require_once configPath() . "database.php";
 
 if (empty($db_config)) {
     die("Configurazione del database non valida.");
 }
 
+/**
+ * Creiamo un'istanza di classe Database
+ */
 $database = new Database($db_config);
 
-$router = require_once ROUTES_PATH . "web.php";
+/**
+ * Recuperiamo il contenuto del file di routing
+ */
+$routes = require_once routesPath() . "web.php";
 
-//istanzio la mia applicazione in modo tale da avere sempre in memoria tutto cio' che mi serve per farla funzionare (database, routing ecc)
-$app = new App($database, $router);
+/**
+ * Istanziamo la nostra app in modo tale da avere sempre in memoria tutto cio' che ci serve per farla funzionare
+ */
+$app = new App($database, $routes);
 
 //per sicurezza, una volta che abbiamo configurato il db, cancelliamo queste info
 unset($db_config);

@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Modules;
+namespace App\Modules\Router;
 
-require_once __DIR__ . '/../Modules/helpers.php';
+use App\Modules\Csrf;
 
-class Router
+class Route
 {
     //routes ha al suo interno i vari metodi
     protected static array $routes = [

@@ -2,21 +2,20 @@
 
 namespace App\routes;
 
-use App\Modules\Router;
+use App\Modules\Router\Route;
 use App\Modules\Models\Article;
 
-$router = new Router();
+$route = new Route;
 
-//nella chiave get registro questo nuovo uri con la callback corrispondente
-$router::get('/', function () {
+$route::get('/', function () {
     return view('welcome');
 });
 
-$router::get('/article/create', function () {
+$route::get('/article/create', function () {
     return view('article/create');
 });
 
-$router::post('/article/store', function () {
+$route::post('/article/store', function () {
     $title = $_POST['title'];
     $subtitle = $_POST['subtitle'];
     $body = $_POST['body'];
@@ -28,4 +27,4 @@ $router::post('/article/store', function () {
     return redirect('/');
 });
 
-return $router;
+return $route;
