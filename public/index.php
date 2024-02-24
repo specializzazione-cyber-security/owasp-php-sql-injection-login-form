@@ -49,8 +49,9 @@ $routes = require_once routesPath() . "web.php";
  */
 $app = new App($database, $routes);
 
-//per sicurezza, una volta che abbiamo configurato il db, cancelliamo queste info
 unset($db_config);
 
-//prende la richiesta lanciata e la risolve
+/**
+ * L'applicazione raccoglie la richiesta e la risolve
+ */
 $app->router::resolve();
