@@ -9,7 +9,6 @@ class App
     public static App $app;
     public Route $router;
     public Database $database;
-    public $session;
     public $csrf_token;
 
     public function __construct(Database $database, Route $router)
@@ -17,7 +16,12 @@ class App
         $this->database = $database;
         $this->router = $router;
         self::$app = $this;
-        $this->session = session_start();
         $this->csrf_token = Csrf::generateToken();
+    }
+
+    public function run()
+    {
+        session_start();
+        $this->router::resolve();
     }
 }
