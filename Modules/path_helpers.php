@@ -1,56 +1,66 @@
 <?php
 
 /**
- * Restituisce il percorso della root dell'applicazione
+ * Restituisce il percorso della root dell'applicazione.
+ * Se viene passata una stringa, crea un percorso totalmente qualificato
+ * @param string|null $path
  * @return string
  */
 if (!function_exists('basePath')) {
-    function basePath()
+    function basePath(?string $path = null): string
     {
-        return dirname(__FILE__, 2) . '/';
+        return dirname(__FILE__, 2) . '/' . $path;
     }
 }
 
 /**
- * Restituisce il percorso della cartella config
+ * Restituisce il percorso della cartella config.
+ * Se viene passata una stringa, crea un percorso totalmente qualificato
+ * @param string|null $path
  * @return string
  */
 if (!function_exists('configPath')) {
-    function configPath()
+    function configPath(?string $path = null): string
     {
-        return basePath() . "config/";
+        return basePath() . "config/" . $path;
     }
 }
 
 /**
- * Restituisce il percorso della cartella routes
+ * Restituisce il percorso della cartella routes.
+ * Se viene passata una stringa, crea un percorso totalmente qualificato
+ * @param string|null $path
  * @return string
  */
 if (!function_exists('routesPath')) {
-    function routesPath()
+    function routesPath(?string $path = null): string
     {
-        return basePath() . "routes/";
+        return basePath() . "routes/" . $path;
     }
 }
 
 /**
- * Restituisce il percorso della cartella Modules
+ * Restituisce il percorso della cartella Modules.
+ * Se viene passata una stringa, crea un percorso totalmente qualificato
+ * @param string|null $path
  * @return string
  */
 if (!function_exists('modulesPath')) {
-    function modulesPath()
+    function modulesPath(?string $path = null): string
     {
-        return basePath() . "Modules/";
+        return basePath() . "Modules/" . $path;
     }
 }
 
 /**
- * Restituisce il percorso della cartella public
+ * Restituisce il percorso della cartella public.
+ * Se viene passata una stringa, crea un percorso totalmente qualificato
+ * @param string|null $path
  * @return string
  */
 if (!function_exists('publicPath')) {
-    function publicPath()
+    function publicPath(?string $path = null): string
     {
-        return basePath() . "public/";
+        return basePath() . "public/" . $path;
     }
 }
