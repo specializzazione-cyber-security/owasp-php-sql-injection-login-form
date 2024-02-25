@@ -18,27 +18,27 @@ class Route
     /**
      * Assegna in routes, per quel metodo, per quell'uri una callback
      */
-    public static function get(string $uri, Closure|array $callback)
+    public static function get(string $uri, Closure|array $callback): void
     {
         self::$routes['GET'][$uri] = $callback;
     }
 
-    public static function post(string $uri, callable $callback)
+    public static function post(string $uri, Closure|array $callback): void
     {
         self::$routes['POST'][$uri] = $callback;
     }
 
-    public static function put(string $uri, callable $callback)
+    public static function put(string $uri, Closure|array $callback): void
     {
         self::$routes['PUT'][$uri] = $callback;
     }
 
-    public static function delete(string $uri, callable $callback)
+    public static function delete(string $uri, Closure|array $callback): void
     {
         self::$routes['DELETE'][$uri] = $callback;
     }
 
-    public static function routeIs(string $uri)
+    public static function routeIs(string $uri): bool
     {
         return $uri == parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
     }

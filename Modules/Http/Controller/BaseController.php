@@ -6,7 +6,13 @@ use BadMethodCallException;
 
 abstract class BaseController
 {
-    public function call($method, $parameters)
+    /**
+     * Lancia la callback del metodo passato, altrimenti lancia un'eccezione
+     * @param string $method
+     * @param array $parameters
+     * @return callable
+     */
+    public function call(string $method, array $parameters): callable
     {
         if (method_exists($this, $method)) {
             return $this->{$method}(...array_values($parameters));
