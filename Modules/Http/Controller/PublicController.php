@@ -6,6 +6,8 @@ class PublicController extends BaseController
 {
     public function homepage()
     {
-        return view('welcome');
+        return view('welcome', [
+            'test' => "AWEEEE"
+        ]);
     }
 }

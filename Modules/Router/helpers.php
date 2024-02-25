@@ -1,8 +1,10 @@
 <?php
 
 if (!function_exists('view')) {
-    function view($viewName)
+    function view($viewName, $data = [])
     {
+        extract($data);
+
         return include_once __DIR__ . '/../../Templates/' . $viewName . '.php';
     }
 }
