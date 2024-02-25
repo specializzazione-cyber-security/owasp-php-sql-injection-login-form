@@ -14,10 +14,3 @@ if (!function_exists('redirect')) {
         exit();
     }
 }
-
-if (!function_exists('test')) {
-    function test()
-    {
-        echo 'ciao';
-    }
-}
