@@ -2,14 +2,13 @@
 
 namespace App\routes;
 
+use App\Modules\Http\Controller\PublicController;
 use App\Modules\Router\Route;
 use App\Modules\Models\Article;
 
 $route = new Route;
 
-$route::get('/', function () {
-    return view('welcome');
-});
+$route::get('/', [PublicController::class, 'homepage']);
 
 $route::get('/article/create', function () {
     return view('article/create');

@@ -3,6 +3,7 @@
 namespace App\Modules\Router;
 
 use App\Modules\Csrf;
+use Closure;
 
 class Route
 {
@@ -17,27 +18,27 @@ class Route
     /**
      * Assegna in routes, per quel metodo, per quell'uri una callback
      */
-    public static function get($uri, $callback)
+    public static function get(string $uri, Closure|array $callback)
     {
         self::$routes['GET'][$uri] = $callback;
     }
 
-    public static function post($uri, $callback)
+    public static function post(string $uri, callable $callback)
     {
         self::$routes['POST'][$uri] = $callback;
     }
 
-    public static function put($uri, $callback)
+    public static function put(string $uri, callable $callback)
     {
         self::$routes['PUT'][$uri] = $callback;
     }
 
-    public static function delete($uri, $callback)
+    public static function delete(string $uri, callable $callback)
     {
         self::$routes['DELETE'][$uri] = $callback;
     }
 
-    public static function routeIs($uri)
+    public static function routeIs(string $uri)
     {
         return $uri == parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
     }
@@ -64,6 +65,12 @@ class Route
             return view('errors/404');
         }
 
-        return call_user_func($callback);
+        if (is_array($callback) && count($callback) === 2) {
+            $controller = new $callback[0]();
+            $methodName = $callback[1];
+            return $controller->call($methodName, []);
+        } elseif ($callback instanceof Closure) {
+            return $callback();
+        }
     }
 }
