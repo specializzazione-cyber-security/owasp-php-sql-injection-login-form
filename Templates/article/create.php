@@ -27,7 +27,7 @@
             <div class="row justify-content-center">
                 <div class="col-12 col-md-8">
                     <form action="/article/store" method="POST" class="rounded border shadow p-5">
-                        <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
+                        <input type="hidden" name="csrf_token" value="<?php echo csrfToken(); ?>">
                         <div class="mb-3">
                             <label for="title" class="form-label">Titolo</label>
                             <input type="text" name="title" id="title" class="form-control">

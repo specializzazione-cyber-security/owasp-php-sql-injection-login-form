@@ -1,9 +1,9 @@
 <?php
 
 /**
- * Definiamo i percorsi piu' importanti
+ * Registriamo alcuni helper utili per gestire i percorsi
  */
-require_once dirname(__FILE__, 2) . "/Modules/path_helpers.php";
+require_once dirname(__FILE__, 2) . "/Modules/helpers.php";
 
 /**
  * Registriamo l'autoloader di Composer e le funzioni helpers delle rotte
@@ -17,3 +17,5 @@ $app = require_once configPath("app.php");
  * L'applicazione raccoglie la richiesta e la risolve
  */
 $app->run();
+
+var_dump($_SESSION);

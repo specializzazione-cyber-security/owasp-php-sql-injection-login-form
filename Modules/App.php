@@ -9,19 +9,38 @@ class App
     public static App $app;
     public Route $router;
     public Database $database;
-    public $csrf_token;
 
     public function __construct(Database $database, Route $router)
     {
         $this->database = $database;
         $this->router = $router;
         self::$app = $this;
-        $this->csrf_token = Csrf::generateToken();
     }
 
-    public function run()
+    /**
+     * Rigenera sessione e CSRF token nel caso fosse scattato il timeout di sessione
+     */
+    protected function regenerateSessionIfNeeded(): void
+    {
+        if (!isset($_SESSION['session_created'])) {
+            $_SESSION['session_created'] = time();
+        } else if (time() - $_SESSION['session_created'] > $_ENV['SESSION_LIFETIME']) {
+            session_regenerate_id(true);
+            $_SESSION['csrf_token'] = Csrf::generateToken();
+            $_SESSION['session_created'] = time();
+        }
+    }
+
+    public function run(): void
     {
         session_start();
+
+        if (!isset($_SESSION['csrf_token'])) {
+            $_SESSION['csrf_token'] = Csrf::generateToken();
+        }
+
+        $this->regenerateSessionIfNeeded();
+
         $this->router::resolve();
     }
 }

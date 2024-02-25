@@ -64,3 +64,14 @@ if (!function_exists('publicPath')) {
         return basePath() . "public/" . $path;
     }
 }
+
+/**
+ * Restituisce il CSRF Token presente in sessione
+ * @return string
+ */
+if (!function_exists('csrfToken')) {
+    function csrfToken(): string
+    {
+        return $_SESSION['csrf_token'];
+    }
+}
