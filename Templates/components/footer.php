@@ -1,11 +1,5 @@
-<!-- Footer -->
 <footer class="bg-light text-center ">
-    <!-- Grid container -->
     <div class="container p-4">
-
-
-
-        <!-- Section: Text -->
         <section class="mb-4">
             <p>
                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt
@@ -14,17 +8,10 @@
                 aliquam sequi voluptate quas.
             </p>
         </section>
-        <!-- Section: Text -->
-
-
-        <!-- Section: Links -->
         <section class="">
-            <!--Grid row-->
             <div class="row">
-                <!--Grid column-->
                 <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
                     <h5 class="text-uppercase">Links</h5>
-
                     <ul class="list-unstyled mb-0">
                         <li>
                             <a href="#!" class="text-dark">Link 1</a>
@@ -40,12 +27,8 @@
                         </li>
                     </ul>
                 </div>
-                <!--Grid column-->
-
-                <!--Grid column-->
                 <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
                     <h5 class="text-uppercase">Links</h5>
-
                     <ul class="list-unstyled mb-0">
                         <li>
                             <a href="#!" class="text-dark">Link 1</a>
@@ -61,12 +44,8 @@
                         </li>
                     </ul>
                 </div>
-                <!--Grid column-->
-
-                <!--Grid column-->
                 <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
                     <h5 class="text-uppercase">Links</h5>
-
                     <ul class="list-unstyled mb-0">
                         <li>
                             <a href="#!" class="text-dark">Link 1</a>
@@ -82,12 +61,8 @@
                         </li>
                     </ul>
                 </div>
-                <!--Grid column-->
-
-                <!--Grid column-->
                 <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
                     <h5 class="text-uppercase">Links</h5>
-
                     <ul class="list-unstyled mb-0">
                         <li>
                             <a href="#!" class="text-dark">Link 1</a>
@@ -103,21 +78,11 @@
                         </li>
                     </ul>
                 </div>
-                <!--Grid column-->
             </div>
-            <!--Grid row-->
         </section>
-        <!-- Section: Links -->
-
     </div>
-    <!-- Grid container -->
-
-    <!-- Copyright -->
     <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2)">
         © 2020 Copyright:
         <a class="text-dark" href="https://mdbootstrap.com/">MDBootstrap.com</a>
     </div>
-    <!-- Copyright -->
-
 </footer>
-<!-- Footer -->
