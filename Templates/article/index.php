@@ -34,7 +34,7 @@
                                         <h5 class="card-title"><?php echo $article['title']; ?></h5>
                                         <h6 class="card-subtitle mb-2 text-body-secondary"><?php echo $article['subtitle']; ?></h6>
                                         <p class="card-text truncate"><?php echo $article['body']; ?></p>
-                                        <a href="" class="card-link">Modifica</a>
+                                        <a href="/article/show?article_id=<?= $article['id'] ?>" class="card-link">Leggi</a>
                                     </div>
                                 </div>
                             </div>

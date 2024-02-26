@@ -13,6 +13,6 @@ $route::get('/', [PublicController::class, 'homepage']);
 $route::get('/article/index', [ArticleController::class, 'index']);
 $route::get('/article/create', [ArticleController::class, 'create']);
 $route::post('/article/store', [ArticleController::class, 'store']);
-// $route::get('/article/edit/' . $article['id'], [ArticleController::class, 'edit']);
+$route::get('/article/show' , [ArticleController::class, 'show']);
 
 return $route;
