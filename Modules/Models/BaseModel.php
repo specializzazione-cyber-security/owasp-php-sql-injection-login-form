@@ -54,7 +54,7 @@ abstract class BaseModel
 
     /**
      * Costruisce e restituisce una query di inserimento SQL compatibile con la sintassi SQL e utilizzabile con PDO.
-     *
+     * todo: astrarre questa funzione in modo che possa essere utilizzata anche per le query di insert, update, delete.
      * @param array $attributes
      * @param string $tableName
      * @return string
