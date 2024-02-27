@@ -26,7 +26,7 @@
         <div class="container my-5">
             <div class="row justify-content-center">
                 <div class="col-12 col-md-8">
-                    <form action="/article/update?article_id<?= $article['id'] ?>" method="POST" class="rounded border shadow p-5">
+                    <form action="/article/update?article_id=<?= $article['id'] ?>" method="POST" class="rounded border shadow p-5">
                         <input type="hidden" name="csrf_token" value="<?php echo csrfToken(); ?>">
                         <div class="mb-3">
                             <label for="title" class="form-label">Titolo</label>

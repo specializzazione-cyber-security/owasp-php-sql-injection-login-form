@@ -35,6 +35,17 @@ abstract class BaseModel
         }
     }
 
+    // public function update(int $id, ...$params): bool
+    // {
+    //     $attributes = $this->getAttributes();
+    //     $tableName = $this->getTableName();
+
+    //     // Costruisci la parte SET della query SQL
+    //     $setClause = implode(', ', array_map(fn ($attr) => "$attr = :$attr", $attributes));
+
+    //     $query = "UPDATE $tableName SET WHERE id = $id;";
+    // }
+
     /**
      * Esegue una query SQL di selezione e restituisce i risultati.
      *

@@ -15,5 +15,6 @@ $route::get('/article/create', [ArticleController::class, 'create']);
 $route::post('/article/store', [ArticleController::class, 'store']);
 $route::get('/article/show', [ArticleController::class, 'show']);
 $route::get('/article/edit', [ArticleController::class, 'edit']);
+$route::post('/article/update', [ArticleController::class, 'update']);
 
 return $route;

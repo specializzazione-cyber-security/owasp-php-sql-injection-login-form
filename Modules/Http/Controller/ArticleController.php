@@ -73,4 +73,24 @@ class ArticleController extends BaseController
             'article' => $article[0],
         ]);
     }
+
+    public function update()
+    {
+        $id = explode("=", $_SERVER["QUERY_STRING"])[1];
+
+        if (!$id) return redirect("/");
+
+        $query = "SELECT * FROM articles WHERE id = $id";
+        $article = Article::get($query);
+
+        $title = $_POST['title'];
+        $subtitle = $_POST['subtitle'];
+        $body = $_POST['body'];
+
+        $pdo = App::$app->database->pdo;
+        $stmt = $pdo->prepare("UPDATE articles SET title = :title, subtitle = :subtitle, body = :body WHERE id = :id");
+        $stmt->execute(['title' => $title, 'subtitle' => $subtitle, 'body' => $body, 'id' => $id]);
+
+        return redirect('article/show?article_id=' . $id);
+    }
 }
