@@ -39,6 +39,12 @@
                                             <a href="/article/edit?article_id=<?= $article->id ?>" class="btn btn-warning">Modifica</a>
                                         </div>
                                     </div>
+                                    <div class="card-footer">
+                                        <p class="m-0 small">
+                                            <span class="fst-italic">Inserito il: </span>
+                                            <?php echo $article->created_at->format('d/m/Y') ?>
+                                        </p>
+                                    </div>
                                 </div>
                             </div>
                         <?php endforeach; ?>
