@@ -36,19 +36,41 @@ class ArticleController extends BaseController
         return redirect('/');
     }
 
-    public function show(){
+    public function show()
+    {
         $id = explode("=", $_SERVER["QUERY_STRING"])[1];
-        if(!$id) return redirect("/");
+
+        if (!$id) return redirect("/");
+
         $query = "SELECT * FROM articles WHERE id = $id";
         $article = Article::get($query);
-        if(!$article)
-        {
+
+        if (!$article) {
             http_response_code(404);
             return view('errors/404');
         }
+
         return view('article/show', [
             'article' => $article[0],
         ]);
+    }
 
+    public function edit()
+    {
+        $id = explode("=", $_SERVER["QUERY_STRING"])[1];
+
+        if (!$id) return redirect("/");
+
+        $query = "SELECT * FROM articles WHERE id = $id";
+        $article = Article::get($query);
+
+        if (!$article) {
+            http_response_code(404);
+            return view('errors/404');
+        }
+
+        return view('article/edit', [
+            'article' => $article[0],
+        ]);
     }
 }
