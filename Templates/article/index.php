@@ -31,12 +31,12 @@
                             <div class="col-12 col-md-3 my-2">
                                 <div class="card">
                                     <div class="card-body">
-                                        <h5 class="card-title"><?php echo $article['title']; ?></h5>
-                                        <h6 class="card-subtitle mb-2 text-body-secondary"><?php echo $article['subtitle']; ?></h6>
-                                        <p class="card-text truncate"><?php echo $article['body']; ?></p>
+                                        <h5 class="card-title"><?php echo $article->title; ?></h5>
+                                        <h6 class="card-subtitle mb-2 text-body-secondary"><?php echo $article->subtitle; ?></h6>
+                                        <p class="card-text truncate"><?php echo $article->body; ?></p>
                                         <div class="mt-4">
-                                            <a href="/article/show?article_id=<?= $article['id'] ?>" class="btn btn-dark">Leggi</a>
-                                            <a href="/article/edit?article_id=<?= $article['id'] ?>" class="btn btn-warning">Modifica</a>
+                                            <a href="/article/show?article_id=<?= $article->id ?>" class="btn btn-dark">Leggi</a>
+                                            <a href="/article/edit?article_id=<?= $article->id ?>" class="btn btn-warning">Modifica</a>
                                         </div>
                                     </div>
                                 </div>

@@ -30,9 +30,13 @@ class ArticleController extends BaseController
         $subtitle = $_POST['subtitle'];
         $body = $_POST['body'];
 
-        $article = new Article($title, $subtitle, $body);
+        $article = Article::insert([
+            'title' => $title,
+            'subtitle' => $subtitle,
+            'body' => $body,
+        ]);
 
-        $article->save();
+        // $article->save();
         return redirect('/');
     }
 

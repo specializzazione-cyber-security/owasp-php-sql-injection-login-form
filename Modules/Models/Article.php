@@ -37,7 +37,7 @@ class Article extends BaseModel
      * 
      * @return string
      */
-    protected function getTableName(): string
+    protected static function getTableName(): string
     {
         return 'articles';
     }
@@ -45,12 +45,12 @@ class Article extends BaseModel
     /**
      * Costruisce l'istanza della classe
      */
-    public function __construct(string $title, string $subtitle, string $body)
-    {
-        $this->title = $title;
-        $this->subtitle = $subtitle;
-        $this->body = $body;
-        $this->created_at = Carbon::now();
-        $this->updated_at = Carbon::now();
-    }
+    // public function __construct(string $title, string $subtitle, string $body)
+    // {
+    //     $this->title = $title;
+    //     $this->subtitle = $subtitle;
+    //     $this->body = $body;
+    //     $this->created_at = Carbon::now();
+    //     $this->updated_at = Carbon::now();
+    // }
 }
