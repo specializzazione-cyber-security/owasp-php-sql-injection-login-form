@@ -145,18 +145,24 @@ abstract class BaseModel
 
         $placeholders = array_map(fn ($column) => ":$column", $attributes);
 
-        foreach ($attributes as $key => $attribute) {
-            if ($values[$key] instanceof DateTime) {
-                $values[$key] = $values[$key]->format('Y-m-d H:i:s');
+        try {
+            foreach ($attributes as $key => $attribute) {
+                if ($values[$key] instanceof DateTime) {
+                    $values[$key] = $values[$key]->format('Y-m-d H:i:s');
+                }
+
+                $stmt = $pdo->prepare("UPDATE $tableName SET $attribute = $placeholders[$key] WHERE id = $this->id");
+
+                $stmt->bindValue($placeholders[$key], $values[$key]); // Usare il placeholder invece del nome della colonna
+
+                $stmt->execute();
             }
 
-            $stmt = $pdo->prepare("UPDATE $tableName SET $attribute = $placeholders[$key] WHERE id = $this->id");
+            return true;
+        } catch (PDOException $e) {
+            error_log("Errore nel salvataggio: " . $e->getMessage());
 
-            $stmt->bindValue($placeholders[$key], $values[$key]); // Usare il placeholder invece del nome della colonna
-
-            $stmt->execute();
+            return false;
         }
-
-        return true;
     }
 }
