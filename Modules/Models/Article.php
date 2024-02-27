@@ -2,12 +2,14 @@
 
 namespace App\Modules\Models;
 
-use App\Modules\Models\BaseModel;
-use Carbon\Carbon;
 use DateTime;
+use Carbon\Carbon;
+use AllowDynamicProperties;
 
 use function PHPSTORM_META\map;
+use App\Modules\Models\BaseModel;
 
+#[AllowDynamicProperties]
 class Article extends BaseModel
 {
     public string $title;
@@ -36,14 +38,17 @@ class Article extends BaseModel
      * Setta il nome della tabella nel database
      * 
      * @return string
+     * @deprecated
      */
-    protected static function getTableName(): string
-    {
-        return 'articles';
-    }
+    // protected static function getTableName(): string
+    // {
+    //     return 'articles';
+    // }
 
     /**
      * Costruisce l'istanza della classe
+     * 
+     * @deprecated
      */
     // public function __construct(string $title, string $subtitle, string $body)
     // {

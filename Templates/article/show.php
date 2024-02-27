@@ -18,12 +18,12 @@
             <div class="row justify-content-center">
                 <div class="col-12">
                     <h1 class="display-1">
-                        <?php echo $article['title']; ?>
+                        <?php echo $article->title; ?>
                     </h1>
                 </div>
                 <div class="col-12 my-5">
                     <h2 class="fs-3 fst-italic lead">
-                        <?php echo $article['subtitle']; ?>
+                        <?php echo $article->subtitle; ?>
                     </h2>
                 </div>
             </div>
@@ -32,7 +32,7 @@
             <div class="row justify-content-center">
                 <div class="col-12 col-md-8">
                     <p>
-                        <?php echo $article['body']; ?>
+                        <?php echo $article->body; ?>
                     </p>
                 </div>
             </div>

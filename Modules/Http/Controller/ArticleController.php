@@ -2,8 +2,7 @@
 
 namespace App\Modules\Http\Controller;
 
-use PDO;
-use App\Modules\App;
+use Carbon\Carbon;
 use App\Modules\Models\Article;
 
 class ArticleController extends BaseController
@@ -14,14 +13,14 @@ class ArticleController extends BaseController
 
         $articles = Article::get($query);
 
-        return view('article/index', [
+        return view('/article/index', [
             'articles' => $articles,
         ]);
     }
 
     public function create()
     {
-        return view('article/create');
+        return view('/article/create');
     }
 
     public function store()
@@ -34,9 +33,10 @@ class ArticleController extends BaseController
             'title' => $title,
             'subtitle' => $subtitle,
             'body' => $body,
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
         ]);
 
-        // $article->save();
         return redirect('/');
     }
 
@@ -54,7 +54,7 @@ class ArticleController extends BaseController
             return view('errors/404');
         }
 
-        return view('article/show', [
+        return view('/article/show', [
             'article' => $article[0],
         ]);
     }
@@ -66,15 +66,15 @@ class ArticleController extends BaseController
         if (!$id) return redirect("/");
 
         $query = "SELECT * FROM articles WHERE id = $id";
-        $article = Article::get($query);
+        $article = Article::get($query)[0];
 
         if (!$article) {
             http_response_code(404);
             return view('errors/404');
         }
 
-        return view('article/edit', [
-            'article' => $article[0],
+        return view('/article/edit', [
+            'article' => $article,
         ]);
     }
 
@@ -85,16 +85,16 @@ class ArticleController extends BaseController
         if (!$id) return redirect("/");
 
         $query = "SELECT * FROM articles WHERE id = $id";
-        $article = Article::get($query);
+        $article = Article::get($query)[0];
 
-        $title = $_POST['title'];
-        $subtitle = $_POST['subtitle'];
-        $body = $_POST['body'];
+        $article->update([
+            'title' => $_POST['title'],
+            'subtitle' => $_POST['subtitle'],
+            'body' => $_POST['body'],
+            'created_at' => $article->created_at,
+            'update_at' => Carbon::now(),
+        ]);
 
-        $pdo = App::$app->database->pdo;
-        $stmt = $pdo->prepare("UPDATE articles SET title = :title, subtitle = :subtitle, body = :body WHERE id = :id");
-        $stmt->execute(['title' => $title, 'subtitle' => $subtitle, 'body' => $body, 'id' => $id]);
-
-        return redirect('article/show?article_id=' . $id);
+        return redirect('/article/show?article_id=' . $id);
     }
 }

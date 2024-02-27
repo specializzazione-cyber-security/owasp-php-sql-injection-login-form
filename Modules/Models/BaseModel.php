@@ -3,6 +3,7 @@
 namespace App\Modules\Models;
 
 use PDO;
+use DateTime;
 use PDOException;
 use PDOStatement;
 use App\Modules\App;
@@ -10,18 +11,17 @@ use Doctrine\Inflector\InflectorFactory;
 
 abstract class BaseModel
 {
+    protected $inflector;
+
     abstract protected function getAttributes(): array;
 
     protected static function getTableName(): string
     {
+        $className = substr(strrchr(static::class, "\\"), 1);
         $inflector = InflectorFactory::create()->build();
+        $pluralClassName = $inflector->pluralize($className);
 
-        return $inflector->pluralize(get_class());
-    }
-
-    public function getAttributeValue($attribute)
-    {
-        return $this->$attribute;
+        return strtolower($pluralClassName);
     }
 
     /**
@@ -47,32 +47,39 @@ abstract class BaseModel
         }
     }
 
-    // public function update(int $id, ...$params): bool
-    // {
-    //     $attributes = $this->getAttributes();
-    //     $tableName = $this->getTableName();
-
-    //     // Costruisci la parte SET della query SQL
-    //     $setClause = implode(', ', array_map(fn ($attr) => "$attr = :$attr", $attributes));
-
-    //     $query = "UPDATE $tableName SET WHERE id = $id;";
-    // }
-
     /**
      * Esegue una query SQL di selezione e restituisce i risultati.
      *
      * @param string $query
      * @return array
      */
-    public static function get($query): array
+    public static function get($query)
     {
         $pdo = App::$app->database->pdo;
         $statement = $pdo->prepare($query);
         $statement->execute();
 
-        $result = $statement->fetchAll($pdo::FETCH_OBJ);
+        $result = $statement->fetchAll(PDO::FETCH_ASSOC);
 
-        return $result;
+        $articles = [];
+
+        foreach ($result as $record) {
+            $article = new Article();
+
+            foreach ($record as $key => $value) {
+                if ($key === 'updated_at') {
+                    $article->updated_at = new DateTime($value);
+                } else if ($key === 'created_at') {
+                    $article->created_at = new DateTime($value);
+                } else {
+                    $article->$key = $value;
+                }
+            }
+
+            $articles[] = $article;
+        }
+
+        return $articles;
     }
 
     /**
@@ -115,6 +122,7 @@ abstract class BaseModel
         try {
             $statement = App::$app->database->pdo->prepare($query);
 
+            //todo: creare funzione bindValues
             foreach ($attributes as $key => $attribute) {
                 $statement->bindValue(":$attribute", $values[$key]);
             }
@@ -124,6 +132,27 @@ abstract class BaseModel
         } catch (PDOException $e) {
             error_log("Errore nel salvataggio: " . $e->getMessage());
             return false;
+        }
+    }
+
+    public function update($params): bool
+    {
+        $tableName = static::getTableName();
+        $attributes = array_keys($params);
+        $values = array_values($params);
+
+        $pdo = App::$app->database->pdo;
+
+        $placeholders = array_map(fn ($column) => ":$column", $attributes);
+
+        foreach ($attributes as $key => $attribute) {
+            $stmt = $pdo->prepare("UPDATE $tableName SET $attribute = $placeholders[$key] WHERE id = $this->id");
+
+            $stmt->bindValue($attribute, $values[$key]);
+
+            $stmt->execute();
+
+            return true;
         }
     }
 }

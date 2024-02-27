@@ -26,19 +26,19 @@
         <div class="container my-5">
             <div class="row justify-content-center">
                 <div class="col-12 col-md-8">
-                    <form action="/article/update?article_id=<?= $article['id'] ?>" method="POST" class="rounded border shadow p-5">
+                    <form action="/article/update?article_id=<?= $article->id ?>" method="POST" class="rounded border shadow p-5">
                         <input type="hidden" name="csrf_token" value="<?php echo csrfToken(); ?>">
                         <div class="mb-3">
                             <label for="title" class="form-label">Titolo</label>
-                            <input type="text" name="title" id="title" class="form-control" value="<?php echo $article['title'] ?>">
+                            <input type="text" name="title" id="title" class="form-control" value="<?php echo $article->title; ?>">
                         </div>
                         <div class="mb-3">
                             <label for="subtitle" class="form-label">Sottotitolo</label>
-                            <input type="text" name="subtitle" id="subtitle" class="form-control" value="<?php echo $article['subtitle'] ?>">
+                            <input type="text" name="subtitle" id="subtitle" class="form-control" value="<?php echo $article->subtitle; ?>">
                         </div>
                         <div class="mb-3">
                             <label for="body" class="form-label">Contenuto</label>
-                            <textarea name="body" id="body" cols="30" rows="10" class="form-control"><?php echo $article['body'] ?></textarea>
+                            <textarea name="body" id="body" cols="30" rows="10" class="form-control"><?php echo $article->body; ?></textarea>
                         </div>
                         <button type="submit" class="btn btn-dark">Modifica articolo</button>
                     </form>
