@@ -92,7 +92,7 @@ class ArticleController extends BaseController
             'subtitle' => $_POST['subtitle'],
             'body' => $_POST['body'],
             'created_at' => $article->created_at,
-            'update_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
         ]);
 
         return redirect('/article/show?article_id=' . $id);
