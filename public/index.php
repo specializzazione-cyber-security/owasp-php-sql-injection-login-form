@@ -17,5 +17,3 @@ $app = require_once configPath("app.php");
  * L'applicazione raccoglie la richiesta e la risolve
  */
 $app->run();
-
-var_dump($_SESSION);

@@ -75,3 +75,19 @@ if (!function_exists('csrfToken')) {
         return $_SESSION['csrf_token'];
     }
 }
+
+/*
+    dump and die
+*/
+if (!function_exists('dd')) {
+    function dd(...$vars)
+    {
+        echo "<pre style='background-color:#000; padding: 10px; border-radius: 5px; color: #fff;'>";
+        foreach ($vars as $var) {
+            var_dump($var);
+            echo "<br>";
+        }
+        echo "</pre>";
+        die();
+    }
+}
