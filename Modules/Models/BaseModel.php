@@ -28,24 +28,25 @@ abstract class BaseModel
      * Salva l'oggetto corrente nel database.
      *
      * @return bool
+     * @deprecated
      */
-    public function save(): bool
-    {
-        $attributes = $this->getAttributes();
-        $tableName = $this->getTableName();
+    // public function save(): bool
+    // {
+    //     $attributes = $this->getAttributes();
+    //     $tableName = $this->getTableName();
 
-        $query = $this->buildQuery($attributes, $tableName);
+    //     $query = $this->buildQuery($attributes, $tableName);
 
-        try {
-            $statement = App::$app->database->pdo->prepare($query);
-            $this->bindValues($statement, $attributes);
-            $statement->execute();
-            return true;
-        } catch (PDOException $e) {
-            error_log("Errore nel salvataggio: " . $e->getMessage());
-            return false;
-        }
-    }
+    //     try {
+    //         $statement = App::$app->database->pdo->prepare($query);
+    //         $this->bindValues($statement, $attributes);
+    //         $statement->execute();
+    //         return true;
+    //     } catch (PDOException $e) {
+    //         error_log("Errore nel salvataggio: " . $e->getMessage());
+    //         return false;
+    //     }
+    // }
 
     /**
      * Esegue una query SQL di selezione e restituisce i risultati.
@@ -102,16 +103,23 @@ abstract class BaseModel
      * @param PDOStatement $statement
      * @param array $attributes
      * @return void
+     * @deprecated
      */
-    private function bindValues(PDOStatement $statement, array $attributes): void
-    {
-        foreach ($attributes as $attribute) {
-            $statement->bindValue(":$attribute", $this->{$attribute});
-        }
-    }
+    // private function bindValues(PDOStatement $statement, array $attributes): void
+    // {
+    //     foreach ($attributes as $attribute) {
+    //         $statement->bindValue(":$attribute", $this->{$attribute});
+    //     }
+    // }
 
-    //? PROVIAMO A RAGIONARE IN MANIERA DIVERSA. CREIAMO TANTI METODI A SECONDA DEL CRUD: INSERT - UPDATE - DELETE
-    public static function insert($params): bool
+    /**
+     * Salva un nuovo record nel database.
+     *
+     * @param array $params
+     *
+     * @return bool
+     */
+    public static function insert(array $params): bool
     {
         $tableName = static::getTableName();
         $attributes = array_keys($params);
@@ -135,7 +143,14 @@ abstract class BaseModel
         }
     }
 
-    public function update($params): bool
+    /**
+     * Aggiorna il record nel database con i nuovi valori forniti.
+     *
+     * @param array $params
+     *
+     * @return bool
+     */
+    public function update(array $params): bool
     {
         $tableName = static::getTableName();
         $attributes = array_keys($params);
@@ -162,6 +177,21 @@ abstract class BaseModel
         } catch (PDOException $e) {
             error_log("Errore nel salvataggio: " . $e->getMessage());
 
+            return false;
+        }
+    }
+
+    public function destroy(): bool
+    {
+        $tableName = static::getTableName();
+        $pdo = App::$app->database->pdo;
+
+        try {
+            $statement = $pdo->prepare("DELETE FROM $tableName WHERE id = $this->id");
+            $statement->execute();
+            return true;
+        } catch (PDOException $e) {
+            error_log("Errore nella cancellazione: " . $e->getMessage());
             return false;
         }
     }

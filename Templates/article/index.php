@@ -37,6 +37,10 @@
                                         <div class="mt-4">
                                             <a href="/article/show?article_id=<?= $article->id ?>" class="btn btn-dark">Leggi</a>
                                             <a href="/article/edit?article_id=<?= $article->id ?>" class="btn btn-warning">Modifica</a>
+                                            <form action="/article/destroy?article_id=<?= $article->id ?>" method="POST" class="d-inline">
+                                                <input type="hidden" name="csrf_token" value="<?php echo csrfToken(); ?>">
+                                                <button type="submit" class="btn btn-danger">Cancella</button>
+                                            </form>
                                         </div>
                                     </div>
                                     <div class="card-footer">

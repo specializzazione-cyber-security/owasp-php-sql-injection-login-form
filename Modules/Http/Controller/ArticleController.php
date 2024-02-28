@@ -97,4 +97,18 @@ class ArticleController extends BaseController
 
         return redirect('/article/show?article_id=' . $id);
     }
+
+    public function destroy()
+    {
+        $id = explode("=", $_SERVER['QUERY_STRING'])[1];
+
+        if (!$id) return redirect('/');
+
+        $query = "SELECT * FROM articles WHERE id = $id";
+        $article = Article::get($query)[0];
+
+        $article->destroy();
+
+        return redirect('/article/index');
+    }
 }

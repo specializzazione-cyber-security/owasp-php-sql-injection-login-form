@@ -11,8 +11,8 @@ class Route
     protected static array $routes = [
         'GET' => [],
         'POST' => [],
-        'PUT' => [],
-        'DELETE' => [],
+        'PUT' => [], //! non funziona
+        'DELETE' => [], //! non funziona
     ];
 
     /**
