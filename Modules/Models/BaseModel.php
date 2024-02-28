@@ -25,92 +25,66 @@ abstract class BaseModel
     }
 
     /**
-     * Salva l'oggetto corrente nel database.
+     * Esegue una query sul database utilizzando PDO.
      *
+     * @param string $query
+     * @param array|null $params
+     * 
      * @return bool
-     * @deprecated
      */
-    // public function save(): bool
-    // {
-    //     $attributes = $this->getAttributes();
-    //     $tableName = $this->getTableName();
+    protected static function executeQuery($query, $params = []): bool
+    {
+        try {
+            $statement = App::$app->database->pdo->prepare($query);
+            $statement->execute($params);
 
-    //     $query = $this->buildQuery($attributes, $tableName);
+            return true;
+        } catch (PDOException $e) {
+            error_log("Errore nell'esecuzione della query: " . $e->getMessage());
 
-    //     try {
-    //         $statement = App::$app->database->pdo->prepare($query);
-    //         $this->bindValues($statement, $attributes);
-    //         $statement->execute();
-    //         return true;
-    //     } catch (PDOException $e) {
-    //         error_log("Errore nel salvataggio: " . $e->getMessage());
-    //         return false;
-    //     }
-    // }
+            return false;
+        }
+    }
 
     /**
      * Esegue una query SQL di selezione e restituisce i risultati.
      *
      * @param string $query
+     * @param array|null $params
      * @return array
      */
-    public static function get($query)
+    public static function get($query, $params = []): array
     {
-        $pdo = App::$app->database->pdo;
-        $statement = $pdo->prepare($query);
-        $statement->execute();
+        try {
+            $pdo = App::$app->database->pdo;
+            $statement = $pdo->prepare($query);
+            $statement->execute($params);
 
-        $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+            $queryResult = $statement->fetchAll(PDO::FETCH_ASSOC);
 
-        $articles = [];
+            $data = [];
 
-        foreach ($result as $record) {
-            $article = new Article();
+            foreach ($queryResult as $record) {
+                $instance = new static();
 
-            foreach ($record as $key => $value) {
-                if ($key === 'updated_at') {
-                    $article->updated_at = new DateTime($value);
-                } else if ($key === 'created_at') {
-                    $article->created_at = new DateTime($value);
-                } else {
-                    $article->$key = $value;
+                foreach ($record as $key => $value) {
+                    if ($key === 'updated_at' || $key === 'created_at') {
+                        $instance->$key = new DateTime($value);
+                    } else {
+                        $instance->$key = $value;
+                    }
                 }
+
+                $data[] = $instance;
             }
 
-            $articles[] = $article;
+            return $data;
+        } catch (PDOException $e) {
+            error_log("Errore nell'ottenimento dei dati: " . $e->getMessage());
+
+            return [];
         }
-
-        return $articles;
     }
-
-    /**
-     * Costruisce e restituisce una query di inserimento SQL compatibile con la sintassi SQL e utilizzabile con PDO.
-     * todo: astrarre questa funzione in modo che possa essere utilizzata anche per le query di insert, update, delete.
-     * @param array $attributes
-     * @param string $tableName
-     * @return string
-     */
-    private static function buildQuery(array $attributes, string $tableName): string
-    {
-        $queryFriendlyAttributes = implode(', ', $attributes);
-        $placeholders = implode(', ', array_map(fn ($column) => ":$column", $attributes));
-        return "INSERT INTO $tableName ($queryFriendlyAttributes) VALUES ($placeholders)";
-    }
-
-    /**
-     * Associa i valori degli attributi della classe ai segnaposto nella query preparata.
-     *
-     * @param PDOStatement $statement
-     * @param array $attributes
-     * @return void
-     * @deprecated
-     */
-    // private function bindValues(PDOStatement $statement, array $attributes): void
-    // {
-    //     foreach ($attributes as $attribute) {
-    //         $statement->bindValue(":$attribute", $this->{$attribute});
-    //     }
-    // }
 
     /**
      * Salva un nuovo record nel database.
@@ -122,25 +96,13 @@ abstract class BaseModel
     public static function insert(array $params): bool
     {
         $tableName = static::getTableName();
+
         $attributes = array_keys($params);
-        $values = array_values($params);
+        $placeholders = implode(', ', array_map(fn ($column) => ":$column", $attributes));
 
-        $query = self::buildQuery($attributes, $tableName);
+        $query = "INSERT INTO $tableName (" . implode(', ', $attributes) . ") VALUES ($placeholders)";
 
-        try {
-            $statement = App::$app->database->pdo->prepare($query);
-
-            //todo: creare funzione bindValues
-            foreach ($attributes as $key => $attribute) {
-                $statement->bindValue(":$attribute", $values[$key]);
-            }
-
-            $statement->execute();
-            return true;
-        } catch (PDOException $e) {
-            error_log("Errore nel salvataggio: " . $e->getMessage());
-            return false;
-        }
+        return self::executeQuery($query, $params);
     }
 
     /**
@@ -153,46 +115,33 @@ abstract class BaseModel
     public function update(array $params): bool
     {
         $tableName = static::getTableName();
+
         $attributes = array_keys($params);
-        $values = array_values($params);
+        $placeholders = implode(', ', array_map(fn ($column) => "$column = :$column", $attributes));
+        $params['id'] = $this->id;
 
-        $pdo = App::$app->database->pdo;
+        $query = "UPDATE $tableName SET $placeholders WHERE id = :id";
 
-        $placeholders = array_map(fn ($column) => ":$column", $attributes);
-
-        try {
-            foreach ($attributes as $key => $attribute) {
-                if ($values[$key] instanceof DateTime) {
-                    $values[$key] = $values[$key]->format('Y-m-d H:i:s');
-                }
-
-                $stmt = $pdo->prepare("UPDATE $tableName SET $attribute = $placeholders[$key] WHERE id = $this->id");
-
-                $stmt->bindValue($placeholders[$key], $values[$key]); // Usare il placeholder invece del nome della colonna
-
-                $stmt->execute();
+        foreach ($params as $key => $value) {
+            if ($value instanceof DateTime) {
+                $params[$key] = $value->format('Y-m-d H:i:s');
             }
-
-            return true;
-        } catch (PDOException $e) {
-            error_log("Errore nel salvataggio: " . $e->getMessage());
-
-            return false;
         }
+
+        return self::executeQuery($query, $params);
     }
 
+    /**
+     * Cancella il record dal database.
+     *
+     * @return bool
+     */
     public function destroy(): bool
     {
         $tableName = static::getTableName();
-        $pdo = App::$app->database->pdo;
 
-        try {
-            $statement = $pdo->prepare("DELETE FROM $tableName WHERE id = $this->id");
-            $statement->execute();
-            return true;
-        } catch (PDOException $e) {
-            error_log("Errore nella cancellazione: " . $e->getMessage());
-            return false;
-        }
+        $query = "DELETE FROM $tableName WHERE id = :id";
+
+        return self::executeQuery($query, ['id' => $this->id]);
     }
 }
