@@ -19,6 +19,7 @@ class App
 
     /**
      * Rigenera sessione e CSRF token nel caso fosse scattato il timeout di sessione
+     * @return void
      */
     protected function regenerateSessionIfNeeded(): void
     {

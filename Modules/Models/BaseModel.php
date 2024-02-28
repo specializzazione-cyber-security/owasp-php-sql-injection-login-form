@@ -15,6 +15,11 @@ abstract class BaseModel
 
     abstract protected function getAttributes(): array;
 
+    /**
+     * Ottiene il nome della tabella corrispondente alla classe.
+     *
+     * @return string
+     */
     protected static function getTableName(): string
     {
         $className = substr(strrchr(static::class, "\\"), 1);
@@ -29,7 +34,6 @@ abstract class BaseModel
      *
      * @param string $query
      * @param array|null $params
-     * 
      * @return bool
      */
     protected static function executeQuery($query, $params = []): bool
@@ -94,7 +98,6 @@ abstract class BaseModel
      * Salva un nuovo record nel database.
      *
      * @param array $params
-     *
      * @return bool
      */
     public static function insert(array $params): bool
@@ -113,7 +116,6 @@ abstract class BaseModel
      * Aggiorna il record nel database con i nuovi valori forniti.
      *
      * @param array $params
-     *
      * @return bool
      */
     public function update(array $params): bool

@@ -7,7 +7,8 @@ use BadMethodCallException;
 abstract class BaseController
 {
     /**
-     * Lancia la callback del metodo passato, altrimenti lancia un'eccezione
+     * Cerca un metodo chiamato come la stringa passata e lo esegue, altrimenti lancia un'eccezione
+     * 
      * @param string $method
      * @param array $parameters
      */

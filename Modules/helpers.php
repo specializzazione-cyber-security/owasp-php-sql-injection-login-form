@@ -45,6 +45,7 @@ if (!function_exists('routesPath')) {
 /**
  * Restituisce il percorso della cartella Modules.
  * Se viene passata una stringa, crea un percorso totalmente qualificato
+ * 
  * @param string|null $path
  * @return string
  */

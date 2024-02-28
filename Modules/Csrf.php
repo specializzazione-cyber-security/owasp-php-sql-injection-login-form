@@ -6,6 +6,7 @@ class Csrf
 {
     /**
      * Genera un CSRF token casuale
+     * 
      * @return string
      */
     public static function generateToken(): string
@@ -15,6 +16,7 @@ class Csrf
 
     /**
      * Confronta il CSRF token della sessione rispetto quello presente nella request 
+     * 
      * @param string $token
      * @return bool
      */
