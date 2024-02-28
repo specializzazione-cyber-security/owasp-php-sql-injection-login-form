@@ -35,17 +35,6 @@ class Article extends BaseModel
     }
 
     /**
-     * Setta il nome della tabella nel database
-     * 
-     * @return string
-     * @deprecated
-     */
-    // protected static function getTableName(): string
-    // {
-    //     return 'articles';
-    // }
-
-    /**
      * Costruisce l'istanza della classe
      * 
      * @deprecated

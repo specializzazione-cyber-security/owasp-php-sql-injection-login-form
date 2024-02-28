@@ -53,7 +53,7 @@ abstract class BaseModel
      * @param array|null $params
      * @return array
      */
-    public static function get($query, $params = []): array
+    public static function select($query, $params = []): array|static
     {
         try {
             $pdo = App::$app->database->pdo;
@@ -76,6 +76,10 @@ abstract class BaseModel
                 }
 
                 $data[] = $instance;
+            }
+
+            if (count($data) === 1) {
+                return $data[0];
             }
 
             return $data;

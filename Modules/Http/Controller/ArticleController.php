@@ -11,7 +11,7 @@ class ArticleController extends BaseController
     {
         $query = "SELECT * FROM articles";
 
-        $articles = Article::get($query);
+        $articles = Article::select($query);
 
         return view('/article/index', [
             'articles' => $articles,
@@ -29,7 +29,7 @@ class ArticleController extends BaseController
         $subtitle = $_POST['subtitle'];
         $body = $_POST['body'];
 
-        $article = Article::insert([
+        Article::insert([
             'title' => $title,
             'subtitle' => $subtitle,
             'body' => $body,
@@ -47,7 +47,7 @@ class ArticleController extends BaseController
         if (!$id) return redirect("/");
 
         $query = "SELECT * FROM articles WHERE id = $id";
-        $article = Article::get($query);
+        $article = Article::select($query);
 
         if (!$article) {
             http_response_code(404);
@@ -55,7 +55,7 @@ class ArticleController extends BaseController
         }
 
         return view('/article/show', [
-            'article' => $article[0],
+            'article' => $article,
         ]);
     }
 
@@ -66,7 +66,7 @@ class ArticleController extends BaseController
         if (!$id) return redirect("/");
 
         $query = "SELECT * FROM articles WHERE id = $id";
-        $article = Article::get($query)[0];
+        $article = Article::select($query);
 
         if (!$article) {
             http_response_code(404);
@@ -85,7 +85,7 @@ class ArticleController extends BaseController
         if (!$id) return redirect("/");
 
         $query = "SELECT * FROM articles WHERE id = $id";
-        $article = Article::get($query)[0];
+        $article = Article::select($query);
 
         $article->update([
             'title' => $_POST['title'],
@@ -105,7 +105,7 @@ class ArticleController extends BaseController
         if (!$id) return redirect('/');
 
         $query = "SELECT * FROM articles WHERE id = $id";
-        $article = Article::get($query)[0];
+        $article = Article::select($query)[0];
 
         $article->destroy();
 
