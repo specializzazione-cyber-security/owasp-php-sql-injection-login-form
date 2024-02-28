@@ -3,6 +3,7 @@
 /**
  * Restituisce il percorso della root dell'applicazione.
  * Se viene passata una stringa, crea un percorso totalmente qualificato
+ * 
  * @param string|null $path
  * @return string
  */
@@ -16,6 +17,7 @@ if (!function_exists('basePath')) {
 /**
  * Restituisce il percorso della cartella config.
  * Se viene passata una stringa, crea un percorso totalmente qualificato
+ * 
  * @param string|null $path
  * @return string
  */
@@ -29,6 +31,7 @@ if (!function_exists('configPath')) {
 /**
  * Restituisce il percorso della cartella routes.
  * Se viene passata una stringa, crea un percorso totalmente qualificato
+ * 
  * @param string|null $path
  * @return string
  */
@@ -55,6 +58,7 @@ if (!function_exists('modulesPath')) {
 /**
  * Restituisce il percorso della cartella public.
  * Se viene passata una stringa, crea un percorso totalmente qualificato
+ * 
  * @param string|null $path
  * @return string
  */
@@ -67,6 +71,7 @@ if (!function_exists('publicPath')) {
 
 /**
  * Restituisce il CSRF Token presente in sessione
+ * 
  * @return string
  */
 if (!function_exists('csrfToken')) {
@@ -76,11 +81,14 @@ if (!function_exists('csrfToken')) {
     }
 }
 
-/*
-    dump and die
-*/
+/**
+ * Mostra il contenuto delle variabili e interrompe l'esecuzione dello script.
+ *
+ * @param mixed ...$vars
+ * @return void
+ */
 if (!function_exists('dd')) {
-    function dd(...$vars)
+    function dd(mixed ...$vars): void
     {
         echo "<pre style='background-color:#000; padding: 10px; border-radius: 5px; color: #fff;'>";
         foreach ($vars as $var) {
