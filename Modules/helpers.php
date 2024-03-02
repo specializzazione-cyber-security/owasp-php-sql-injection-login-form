@@ -71,6 +71,20 @@ if (!function_exists('publicPath')) {
 }
 
 /**
+ * Restituisce il percorso della cartella public.
+ * Se viene passata una stringa, crea un percorso totalmente qualificato
+ * 
+ * @param string|null $path
+ * @return string
+ */
+if (!function_exists('storagePath')) {
+    function storagePath(?string $path = null): string
+    {
+        return basePath() . "storage/" . $path;
+    }
+}
+
+/**
  * Restituisce il CSRF Token presente in sessione
  * 
  * @return string

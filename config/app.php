@@ -2,6 +2,8 @@
 
 use Dotenv\Dotenv;
 use App\Modules\App;
+use App\Modules\Test;
+use App\Modules\Logger;
 use App\Modules\Database;
 
 /**
@@ -34,9 +36,24 @@ $database = new Database($db_config);
 $routes = require_once routesPath() . "web.php";
 
 /**
+ * Recuperiamo le configurazioni del logger e controlliamo che siano corrette
+ */
+$log_config = require_once configPath() . "logging.php";
+
+if (empty($log_config)) {
+    die("Configurazione del loggin non valida.");
+}
+
+/**
+ * Creiamo un'istanza di classe Logger
+ */
+$logger = new Logger($log_config);
+$logger->channel('default');
+
+/**
  * Istanziamo la nostra app in modo tale da avere un collante per tutti gli elementi che ci servono per farla funzionare
  */
-$app = new App($database, $routes);
+$app = new App($database, $routes, $logger);
 
 unset($db_config);
 

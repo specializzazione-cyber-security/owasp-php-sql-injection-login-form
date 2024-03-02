@@ -2,6 +2,7 @@
 
 namespace App\Modules;
 
+use App\Modules\Logger;
 use App\Modules\Router\Route;
 
 class App
@@ -9,11 +10,13 @@ class App
     public static App $app;
     public Route $router;
     public Database $database;
+    public static Logger $logger;
 
-    public function __construct(Database $database, Route $router)
+    public function __construct(Database $database, Route $router, Logger $logger)
     {
         $this->database = $database;
         $this->router = $router;
+        self::$logger = $logger;
         self::$app = $this;
     }
 
