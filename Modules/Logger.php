@@ -20,9 +20,9 @@ class Logger
 
     public function channel(string|Stringable $channel)
     {
-        $this->channel = $channel;
+        $this->channel = $this->log_config[$channel]['channel'];
 
-        self::$log = new Monolog($channel);
+        self::$log = new Monolog($this->channel);
     }
 
     protected function driver()

@@ -2,7 +2,7 @@
 
 return [
     'default' => [
-        'channel' => 'daily',
+        'channel' => 'default',
         'path' => storagePath('logs/core.log'),
         'level' => $_ENV['LOG_LEVEL'],
     ],
