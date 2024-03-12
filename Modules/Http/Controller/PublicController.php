@@ -19,7 +19,7 @@ class PublicController extends BaseController{
     public function tryLogin(){
         $email = $_POST['email'];
         $password = $_POST['password'];
-
+        
         try{
             $user = $this->findUser($email,$password);
         }
@@ -38,15 +38,11 @@ class PublicController extends BaseController{
     }
 
     public function findUser($email,$password){
-        $query = "select * from users where email=:email and password=:password limit 1";
+        $query = "select * from users where email='$email' and password='$password' limit 1";
 
         $db = App::$app->database->pdo;
-        $sth = $db->prepare($query);
-        $sth->bindParam(':email', $email);
-        $sth->bindParam(':password', $password);
-        $sth->execute();
+        $sth = $db->query($query, PDO::FETCH_ASSOC);
         $data = $sth->fetchAll();
-        
         return reset($data);
     }
 
