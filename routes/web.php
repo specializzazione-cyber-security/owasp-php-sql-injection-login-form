@@ -12,4 +12,9 @@ $route::get('/', function () {
     return view('welcome');
 });
 
+$route::get('/login', [PublicController::class, 'login']);
+
+$route::post('/login/submit', [PublicController::class, 'tryLogin']);
+$route::post('/logout', [PublicController::class, 'logout']);
+
 return $route;

@@ -35,6 +35,13 @@ class App
         }
     }
 
+    public function regenerateSession(){
+        session_unset();
+        session_regenerate_id(true);
+        $_SESSION['csrf_token'] = Csrf::generateToken();
+        $_SESSION['session_created'] = time();
+    }
+
     public function run(): void
     {
         session_start();
