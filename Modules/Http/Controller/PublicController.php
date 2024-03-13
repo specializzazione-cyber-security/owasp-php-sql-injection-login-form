@@ -37,12 +37,16 @@ class PublicController extends BaseController{
        return redirect('/');
     }
 
+    
     public function findUser($email,$password){
-        $query = "select * from users where email='$email' and password='$password' limit 1";
-
+        $query = "select * from users where email=:email and password=:password limit 1";
         $db = App::$app->database->pdo;
-        $sth = $db->query($query, PDO::FETCH_ASSOC);
+        $sth = $db->prepare($query);
+        $sth->bindParam(':email', $email);
+        $sth->bindParam(':password', $password);
+        $sth->execute();
         $data = $sth->fetchAll();
+        
         return reset($data);
     }
 
