@@ -24,12 +24,38 @@
                     </div>
                     <div class="mb-3">
                         <label for="exampleInputPassword1" class="form-label">Password</label>
-                        <input name="password" type="text" class="form-control" id="exampleInputPassword1">
+                        <input name="password" type="password" class="form-control" id="exampleInputPassword1">
                     </div>
                     <input type="hidden" name="csrf_token" value="<?php echo csrfToken(); ?>">
                     <button type="submit" class="btn btn-primary">Submit</button>
                 </form>
             </div>
+        </div>
+        <div class="row justify-content-center">
+        <div class="col-6">
+
+        <table class="table table-secondary table-striped mt-4">
+                    <thead>
+                      <tr>
+                        <th scope="col">Email</th>
+                        <th scope="col">Password</th>
+                        <th scope="col">Ruoli</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <th scope="row">admin@admin.com</th>
+                        <td>12345678</td>
+                        <td>Ruolo: Amministratore</td>
+                      </tr>
+                      <tr>
+                        <th scope="row">user@user.com</th>
+                        <td>12345678</td>
+                        <td>Ruolo: Utente</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  </div>
         </div>
     </div>
 
